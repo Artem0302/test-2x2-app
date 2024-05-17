@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, TextInput, View} from 'react-native';
+import {useNews} from '@entities/firebase-api';
 import {COLORS} from '@shared/constants';
-import {useNews} from '@shared/core';
 import {Button} from '@shared/ui';
 import {CreateHeader} from './components';
 import {styles} from './create-screen.styles';

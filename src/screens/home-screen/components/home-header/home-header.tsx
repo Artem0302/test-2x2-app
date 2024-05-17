@@ -9,7 +9,11 @@ import {styles} from './home-header.styles';
 
 type THomeScreenNavProp = THomeScreenNavigatorType['navigation'];
 
-export function HomeHeader() {
+interface IHomeHeader {
+  onEndEditing: (value: string) => void;
+}
+
+export function HomeHeader({onEndEditing}: IHomeHeader) {
   const navigation = useNavigation<THomeScreenNavProp>();
 
   const [searchText, setSearchText] = useState('');
@@ -27,6 +31,7 @@ export function HomeHeader() {
         />
 
         <TextInput
+          onEndEditing={() => onEndEditing(searchText)}
           style={styles.search_input}
           hitSlop={10}
           value={searchText}

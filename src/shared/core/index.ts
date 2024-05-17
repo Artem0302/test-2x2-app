@@ -1,1 +1,1 @@
-export * from './firebase-api';
+export * from '../../entities/firebase-api';

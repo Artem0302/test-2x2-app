@@ -1,9 +1,9 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {NewsWidget} from '@widgets/news-widget';
+import {useNews} from '@entities/firebase-api';
 import {COLORS} from '@shared/constants';
-import {useNews} from '@shared/core';
 import {INews} from '@shared/types';
 import {Button} from '@shared/ui';
 import {HomeHeader, NoItemComponent} from './components';
@@ -11,9 +11,31 @@ import {styles} from './home-screen.styles';
 
 export function HomeScreen() {
   const {news, getNews, deleteNews} = useNews();
+  const [data, setData] = useState(news);
   const modalId = useRef<string | undefined>(undefined);
   const [isModal, setIsModal] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const searchtext = useRef<string>('');
+
+  const search = () => {
+    if (searchtext.current) {
+      setData(news.filter(obj => obj.title === searchtext.current));
+
+      return;
+    }
+
+    setData(news);
+  };
+
+  const onEndEditing = useCallback((text: string) => {
+    searchtext.current = text;
+
+    search();
+  }, []);
+
+  useEffect(() => {
+    search();
+  }, [news]);
 
   const onLongPress = useCallback((id: string) => {
     modalId.current = id;
@@ -79,9 +101,9 @@ export function HomeScreen() {
         style={styles.flatlist}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.contentContainerStyle}
-        data={news}
+        data={data}
         renderItem={renderItem}
-        ListHeaderComponent={<HomeHeader />}
+        ListHeaderComponent={<HomeHeader onEndEditing={onEndEditing} />}
         ListEmptyComponent={<NoItemComponent />}
       />
     </SafeAreaView>

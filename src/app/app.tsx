@@ -1,7 +1,7 @@
 import {MainNavigator} from '@navigation/main-navigator';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {FirebaseProvider} from '@shared/core';
+import {FirebaseProvider} from '@entities/firebase-api';
 
 function App() {
   return (
