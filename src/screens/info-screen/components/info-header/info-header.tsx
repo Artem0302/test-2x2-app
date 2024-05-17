@@ -9,7 +9,11 @@ import {styles} from './info-header.styles';
 
 type TInfoScreenNavProp = TInfoScreenNavigatorType['navigation'];
 
-export function InfoHeader() {
+interface IInfoHeader {
+  title: string;
+}
+
+export function InfoHeader({title}: IInfoHeader) {
   const navigation = useNavigation<TInfoScreenNavProp>();
 
   const onPress = () => navigation.navigate('MAIN.HOME_SCREEN');
@@ -24,7 +28,7 @@ export function InfoHeader() {
         style={styles.title}
         color={COLORS.common_black}
         variant={'text_semibold'}>
-        Discovery by scientists
+        {title}
       </Text>
     </View>
   );

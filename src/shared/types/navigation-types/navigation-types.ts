@@ -1,8 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
+import {INews} from '@shared/types';
 
 export type TMainNavigatorParamsList = {
   'MAIN.HOME_SCREEN': undefined;
-  'MAIN.INFO_SCREEN': undefined;
+  'MAIN.INFO_SCREEN': {item: INews};
   'MAIN.CREATE_SCREEN': undefined;
 };
 

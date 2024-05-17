@@ -1,11 +1,16 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, TextInput, View} from 'react-native';
 import {COLORS} from '@shared/constants';
+import {useNews} from '@shared/core';
 import {Button} from '@shared/ui';
 import {CreateHeader} from './components';
 import {styles} from './create-screen.styles';
 
 export function CreateScreen() {
+  const navigation = useNavigation();
+  const {addnews} = useNews();
+
   const [inputValues, setInputValues] = useState({
     title: '',
     img_url: '',
@@ -18,6 +23,10 @@ export function CreateScreen() {
   };
 
   const isDisabled = !(inputValues.title && inputValues.text);
+
+  const onPress = () => {
+    addnews(inputValues).then(() => navigation.goBack());
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,7 +71,7 @@ export function CreateScreen() {
 
           <View style={styles.footer}>
             <Button
-              // onPress={}
+              onPress={onPress}
               disabled={isDisabled}
               textColor={COLORS.common_white}
               backgroundColor={COLORS.main_blue}

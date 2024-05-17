@@ -20,11 +20,13 @@ export const styles = StyleSheet.create({
   text_wrapper: {
     width: '100%',
     backgroundColor: COLORS.common_white,
-    marginTop: DEVICE_HEIGHT / 2 - 62,
     paddingVertical: 26,
     paddingHorizontal: 30,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
+  },
+  text_wrapper_alt: {
+    marginTop: DEVICE_HEIGHT / 2 - 62,
   },
   title: {
     marginBottom: 15,

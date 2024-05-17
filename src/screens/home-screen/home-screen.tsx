@@ -1,19 +1,45 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {NewsWidget} from '@widgets/news-widget';
 import {COLORS} from '@shared/constants';
+import {useNews} from '@shared/core';
+import {INews} from '@shared/types';
 import {Button} from '@shared/ui';
 import {HomeHeader, NoItemComponent} from './components';
 import {styles} from './home-screen.styles';
 
 export function HomeScreen() {
+  const {news, getNews, deleteNews} = useNews();
+  const modalId = useRef<string | undefined>(undefined);
   const [isModal, setIsModal] = useState(false);
-  const closeModal = () => setIsModal(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const onLongPress = useCallback(() => setIsModal(true), []);
+  const onLongPress = useCallback((id: string) => {
+    modalId.current = id;
 
-  const renderItem = () => <NewsWidget onLongPress={onLongPress} />;
+    setIsModal(true);
+  }, []);
+
+  const closeModal = () => {
+    modalId.current = undefined;
+
+    setIsModal(false);
+  };
+
+  const renderItem = ({item}: {item: INews}) => (
+    <NewsWidget item={item} onLongPress={onLongPress} />
+  );
+
+  const onRefresh = () => {
+    getNews(setIsRefreshing);
+  };
+
+  const onDelete = () => {
+    modalId.current && deleteNews(modalId.current).then(() => onRefresh());
+
+    closeModal();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,6 +54,7 @@ export function HomeScreen() {
           <View style={styles.drop_line} />
 
           <Button
+            onPress={onDelete}
             textColor={COLORS.common_white}
             style={styles.delete_btn}
             backgroundColor={COLORS.main_red}
@@ -46,19 +73,13 @@ export function HomeScreen() {
       </Modal>
 
       <FlatList
-        refreshing={true}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
         showsVerticalScrollIndicator={false}
         style={styles.flatlist}
+        keyExtractor={item => item.id}
         contentContainerStyle={styles.contentContainerStyle}
-        data={[
-          {name: 'hello'},
-          {name: 'hello'},
-          {name: 'hello'},
-          {name: 'hello'},
-          {name: 'hello'},
-          {name: 'hello'},
-          {name: 'hello'},
-        ]}
+        data={news}
         renderItem={renderItem}
         ListHeaderComponent={<HomeHeader />}
         ListEmptyComponent={<NoItemComponent />}

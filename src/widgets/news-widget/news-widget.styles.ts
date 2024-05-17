@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, DEVICE_HEIGHT} from '@shared/constants';
+import {COLORS} from '@shared/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.common_white,
     borderRadius: 10,
     width: '100%',
-    height: DEVICE_HEIGHT / 3,
     shadowColor: COLORS.common_gray,
     shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.3,
@@ -21,10 +20,10 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   footer: {
-    padding: 18,
+    padding: 16,
   },
   main_text: {
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
   },
 });
