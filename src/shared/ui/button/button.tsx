@@ -23,6 +23,7 @@ interface IButtonProps {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   children?: string;
+  textColor?: TCOLORS;
 }
 
 export const Button = memo(
@@ -36,6 +37,7 @@ export const Button = memo(
     style,
     backgroundColor = COLORS.common_white,
     textStyle,
+    textColor = COLORS.common_black,
     children,
   }: IButtonProps) => {
     const mountStatusRef = useRef(true);
@@ -63,7 +65,7 @@ export const Button = memo(
         <Text
           variant={variant}
           size={fontSize}
-          color={COLORS.common_black}
+          color={textColor}
           style={textStyle}>
           {children}
         </Text>

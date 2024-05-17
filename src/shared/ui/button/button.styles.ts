@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     flexDirection: 'row',
-    borderWidth: 1,
   },
 
   leftAdornment: {

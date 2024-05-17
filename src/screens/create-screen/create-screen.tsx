@@ -1,28 +1,77 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
-import {SafeAreaView} from 'react-native';
-import {TCreateScreenNavigatorType} from '@shared/types';
+import React, {useState} from 'react';
+import {SafeAreaView, ScrollView, TextInput, View} from 'react-native';
+import {COLORS} from '@shared/constants';
+import {Button} from '@shared/ui';
+import {CreateHeader} from './components';
 import {styles} from './create-screen.styles';
 
-type THomeScreenNavProp = TCreateScreenNavigatorType['navigation'];
-
 export function CreateScreen() {
-  const navigation = useNavigation<THomeScreenNavProp>();
+  const [inputValues, setInputValues] = useState({
+    title: '',
+    img_url: '',
+    link: '',
+    text: '',
+  });
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => null,
-      headerTintColor: '#00FA9A',
-      headerStyle: {
-        backgroundColor: '#FFF8DC',
-      },
-      headerTitleStyle: {
-        fontSize: 24,
-        fontWeight: '700',
-      },
-      title: 'Fans',
-    });
-  }, [navigation]);
+  const setNewValue = (field: string, text: string) => {
+    setInputValues(previousData => ({...previousData, [field]: text}));
+  };
 
-  return <SafeAreaView style={styles.container} />;
+  const isDisabled = !(inputValues.title && inputValues.text);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.contentContainerStyle}
+        style={styles.scrollview}>
+        <CreateHeader />
+
+        <View style={styles.body}>
+          <TextInput
+            style={styles.input}
+            hitSlop={10}
+            value={inputValues.title}
+            onChangeText={text => setNewValue('title', text)}
+            placeholder={'Title*'}
+          />
+
+          <TextInput
+            style={styles.input}
+            hitSlop={10}
+            value={inputValues.img_url}
+            onChangeText={text => setNewValue('img_url', text)}
+            placeholder={'Image url'}
+          />
+
+          <TextInput
+            style={styles.input}
+            hitSlop={10}
+            value={inputValues.link}
+            onChangeText={text => setNewValue('link', text)}
+            placeholder={'Link'}
+          />
+
+          <TextInput
+            style={[styles.input, styles.text_input]}
+            hitSlop={10}
+            value={inputValues.text}
+            multiline={true}
+            onChangeText={text => setNewValue('text', text)}
+            placeholder={'Type your message here..*'}
+          />
+
+          <View style={styles.footer}>
+            <Button
+              // onPress={}
+              disabled={isDisabled}
+              textColor={COLORS.common_white}
+              backgroundColor={COLORS.main_blue}
+              variant={'text_bold'}>
+              Public
+            </Button>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }

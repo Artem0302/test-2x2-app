@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    paddingHorizontal: 30,
   },
   search_wrapper: {
     flex: 1,
@@ -25,6 +24,7 @@ export const styles = StyleSheet.create({
   search_input: {
     flex: 1,
     marginLeft: 10,
+    paddingVertical: 0,
   },
   plus_icon: {
     width: 47,
